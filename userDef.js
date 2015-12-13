@@ -1,4 +1,4 @@
-var model = require('./model');
+var model = require('./validator');
 
 module.exports = new model({
     userName: {

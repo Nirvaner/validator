@@ -60,8 +60,8 @@ function modelCreator(definition) {
     //return this;
 };
 
-module.exports = modelCreator;
-module.exports.types = {
+exports = modelCreator;
+exports.types = {
     int: 0,
     float: 1,
     string: 2
