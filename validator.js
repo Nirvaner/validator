@@ -1,25 +1,41 @@
-function modelCreator(definition) {
+var types = {
+    int: 'int',
+    float: 'float',
+    string: 'string'
+};
+
+var typesEq = {
+    int: ['number'],
+    float: ['number'],
+    string: ['string']
+};
+
+function isType(type, typeOf) {
+    return typeOf in typesEq[type];
+}
+
+function ModelCreator(definition) {
 
     var _model = {};
     var _def = definition;
+    var _errors = [];
 
     function _setDefinition(definition) {
         _def = definition;
         init(_def);
-    };
+    }
 
     function _getModel() {
         return _model;
-    };
+    }
 
     function _validateField(field) {
 
-    };
+    }
 
     function _validate() {
-        var errors = [];
-        return errors;
-    };
+        return _errors;
+    }
 
     function init(definition) {
         if (definition) {
@@ -35,34 +51,30 @@ function modelCreator(definition) {
                 });
             });
         }
-    };
+    }
+
+    this.isValid = false;
+    this.errors = _errors;
+    this.setDefinition = _setDefinition;
+    this.validate = _validate;
 
     Object.defineProperties(this, {
         isValid: {
-            value: false,
             enumerable: false
         },
         errors: {
-            value: [],
             enumerable: false
         },
         setDefinition: {
-            value: _setDefinition,
             enumerable: false
         },
         validate: {
-            value: _validate,
             enumerable: false
         }
     });
 
-    if (_def) init(_def);
-    //return this;
-};
+    init(_def);
+}
 
-exports = modelCreator;
-exports.types = {
-    int: 0,
-    float: 1,
-    string: 2
-};
+module.exports = ModelCreator;
+module.exports.types = types;

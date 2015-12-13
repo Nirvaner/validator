@@ -1,8 +1,8 @@
-var model = require('./validator');
+var Validator = require('./validator');
 
-module.exports = new model({
+module.exports = new Validator({
     userName: {
-        type: model.types.string,
+        type: Validator.types.string,
         default: 'No name',
         require: 'this field required!!!',
         regex: {
@@ -20,9 +20,9 @@ module.exports = new model({
         }
     },
     password: {
-        type: model.types.string
+        type: Validator.types.string
     },
     role: {
-        type: [model.types.string]
+        type: [Validator.types.string]
     }
 });
