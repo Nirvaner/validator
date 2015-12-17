@@ -14,66 +14,54 @@ function isType(type, typeOf) {
     return typeOf in typesEq[type];
 }
 
-function ModelCreator(definition) {
+function ModelCreator(definition, model, errorIfNotDefField) {
 
-    var _model = {};
+    var that = this;
+
     var _def = definition;
     var _errors = [];
+    var _isValid = false;
 
     function _setDefinition(definition) {
-        _def = definition;
-        init(_def);
-    }
-
-    function _getModel() {
-        return _model;
-    }
-
-    function _validateField(field) {
-
+        if (definition) {
+            _def = definition;
+            for (var field in _def) {
+                that[field] = _def[field].default;
+                //Object.defineProperty(that, field, {
+                //    get
+                //});
+            }
+        }
     }
 
     function _validate() {
+        _isValid = _errors.length < 1;
         return _errors;
     }
 
-    function init(definition) {
-        if (definition) {
-            Object.keys(definition).forEach(function (key) {
-                _model[key] = definition[key].default || null;
-                Object.defineProperty(this, key, {
-                    get: function () {
-                        return _model[key];
-                    },
-                    set: function (value) {
-                        _model[key] = value;
-                    }
-                });
-            });
-        }
+    function isValid() {
+        _validate();
+        return _isValid;
     }
 
     this.isValid = false;
     this.errors = _errors;
     this.setDefinition = _setDefinition;
-    this.validate = _validate;
 
     Object.defineProperties(this, {
-        isValid: {
-            enumerable: false
-        },
-        errors: {
-            enumerable: false
-        },
         setDefinition: {
             enumerable: false
         },
-        validate: {
+        isValid: {
+            enumerable: false,
+            get: isValid
+        },
+        errors: {
             enumerable: false
         }
     });
 
-    init(_def);
+    this.setDefinition(_def);
 }
 
 module.exports = ModelCreator;

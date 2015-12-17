@@ -1,6 +1,6 @@
 var Validator = require('./validator');
 
-module.exports = new Validator({
+module.exports = {
     userName: {
         type: Validator.types.string,
         default: 'No name',
@@ -25,4 +25,4 @@ module.exports = new Validator({
     role: {
         type: [Validator.types.string]
     }
-});
+};
